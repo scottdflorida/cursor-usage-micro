@@ -1,5 +1,7 @@
 # Cursor Usage Micro
 
+[![CI](https://github.com/scottdflorida/cursor-usage-micro/actions/workflows/ci.yml/badge.svg)](https://github.com/scottdflorida/cursor-usage-micro/actions/workflows/ci.yml)
+
 ## A tiny macOS menu-bar meter for Cursor/Grok usage. 
 - No API key or separate login required
 - No third-party dependencies
@@ -8,7 +10,7 @@
 ***Get the companion meters for [Claude](https://github.com/scottdflorida/claude-usage-micro) and [Codex](https://github.com/scottdflorida/codex-usage-micro)!*** *(So you can always see on which services you have remaining usage)*  
 <img width="470" height="37" alt="image" src="https://github.com/user-attachments/assets/99cdc56b-7ca3-4a0d-8a10-9dd10f2d9f45" />  
 
-[Buy Me a Coffee :)](https://buymeacoffee.com/sflorida)  
+If this earns a place in your menu bar, a GitHub star helps other people find it. You can also [buy me a coffee](https://buymeacoffee.com/sflorida).
 
 The purpose is to show you **how your usage is draining compared to cycle time**.  
 The vertical bar inside the meter moves right to left as the current cycle progresses through time.  
@@ -29,7 +31,7 @@ On click: the full view
 ## Requirements
 
 - macOS 13 or newer
-- Apple silicon
+- Apple silicon or Intel; the build targets the host architecture
 - A Swift 6.2-capable Xcode toolchain (Xcode 26 or newer)
 - Cursor installed, opened, and signed in
 
