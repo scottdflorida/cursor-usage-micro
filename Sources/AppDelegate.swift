@@ -15,6 +15,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
     private var usageTimer: Timer?
     private var clockTimer: Timer?
     private var localClickMonitor: Any?
+    private var globalClickMonitor: Any?
 
     init(client: any UsageFetching = CursorUsageClient()) {
         self.client = client
@@ -253,12 +254,23 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
             }
             return event
         }
+        // Transient behavior alone misses clicks in other apps when this accessory
+        // app was never active; global mouse-down monitors need no permissions.
+        globalClickMonitor = NSEvent.addGlobalMonitorForEvents(matching: mask) { [weak self] _ in
+            MainActor.assumeIsolated {
+                self?.popover.performClose(nil)
+            }
+        }
     }
 
     private func stopLocalClickMonitor() {
         if let localClickMonitor {
             NSEvent.removeMonitor(localClickMonitor)
             self.localClickMonitor = nil
+        }
+        if let globalClickMonitor {
+            NSEvent.removeMonitor(globalClickMonitor)
+            self.globalClickMonitor = nil
         }
     }
 }
