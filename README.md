@@ -14,7 +14,7 @@ An amber `S` badge marks last-known data after a refresh fails; expired stale da
 
 - macOS 13 or newer
 - Apple silicon
-- A Swift 6-capable Xcode toolchain (Xcode 16 or newer)
+- A Swift 6.2-capable Xcode toolchain (Xcode 26 or newer)
 - Cursor installed, opened, and signed in
 
 ## Build and run
