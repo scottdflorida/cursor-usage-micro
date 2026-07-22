@@ -3,7 +3,7 @@
 ## A tiny macOS menu-bar meter for Cursor/Grok usage. 
 - No API key or separate login required
 - No third-party dependencies
-- I have a job watching Cursor's release notes so I can update when they change how usage data is exposed
+- I have daily release-notes watch and canary probes running so I can quickly react and update this app whenever they change how usage data is exposed
 
 ***Get the companion meters for [Claude](https://github.com/scottdflorida/claude-usage-micro) and [Codex](https://github.com/scottdflorida/codex-usage-micro)!*** *(So you can always see on which services you have remaining usage)*  
 <img width="470" height="37" alt="image" src="https://github.com/user-attachments/assets/99cdc56b-7ca3-4a0d-8a10-9dd10f2d9f45" />  
