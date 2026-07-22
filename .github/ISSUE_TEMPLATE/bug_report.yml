@@ -1,0 +1,49 @@
+name: Bug report
+description: Report behavior that is incorrect or unexpected
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for the report. Remove credentials, account details, and raw provider responses before submitting.
+  - type: textarea
+    id: behavior
+    attributes:
+      label: What happened?
+      description: Describe what you saw and what you expected.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: How can we reproduce it?
+      placeholder: List the smallest reliable set of steps.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: App version or commit
+    validations:
+      required: true
+  - type: input
+    id: mac
+    attributes:
+      label: macOS version and Mac model
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Sanitized diagnostics
+      description: Add relevant logs or screenshots only after removing private data.
+      render: text
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Final checks
+      options:
+        - label: I searched the existing issues.
+          required: true
+        - label: I removed credentials, account details, and private usage data.
+          required: true

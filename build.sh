@@ -11,6 +11,13 @@ contents_dir="$staging_app/Contents"
 binary_dir="$contents_dir/MacOS"
 source_files=("$project_dir"/Sources/*.swift)
 preserve_staging=0
+target_arch=${TARGET_ARCH:-$(uname -m)}
+signing_identity=${CODE_SIGN_IDENTITY:--}
+
+if [[ "$target_arch" != "arm64" && "$target_arch" != "x86_64" ]]; then
+  print -u2 -- "Unsupported target architecture: $target_arch"
+  exit 1
+fi
 
 cleanup_staging() {
   if (( preserve_staging == 0 )); then
@@ -49,7 +56,7 @@ swiftc \
   -swift-version 6 \
   -strict-concurrency=complete \
   -warnings-as-errors \
-  -target arm64-apple-macosx13.0 \
+  -target "$target_arch-apple-macosx13.0" \
   -module-cache-path "$project_dir/build/ModuleCache" \
   -framework AppKit \
   -framework Foundation \
@@ -61,7 +68,11 @@ plutil -lint "$project_dir/Info.plist" >/dev/null
 cp "$project_dir/Info.plist" "$contents_dir/Info.plist"
 
 xattr -cr "$staging_app"
-codesign --force --sign - "$staging_app"
+if [[ "$signing_identity" == "-" ]]; then
+  codesign --force --sign - "$staging_app"
+else
+  codesign --force --sign "$signing_identity" --options runtime --timestamp "$staging_app"
+fi
 codesign --verify --deep --strict "$staging_app"
 
 if ! install_in_place; then

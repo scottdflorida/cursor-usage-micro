@@ -1,5 +1,7 @@
 # Cursor Usage Micro
 
+[![CI](https://github.com/scottdflorida/cursor-usage-micro/actions/workflows/ci.yml/badge.svg)](https://github.com/scottdflorida/cursor-usage-micro/actions/workflows/ci.yml)
+
 ## A tiny macOS menu-bar meter for Cursor/Grok usage. 
 - No API key or separate login required
 - No third-party dependencies
@@ -29,7 +31,7 @@ On click: the full view
 ## Requirements
 
 - macOS 13 or newer
-- Apple silicon
+- Apple silicon or Intel; the build targets the host architecture
 - A Swift 6.2-capable Xcode toolchain (Xcode 26 or newer)
 - Cursor installed, opened, and signed in
 
