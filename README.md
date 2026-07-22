@@ -1,14 +1,29 @@
 # Cursor Usage Micro
 
-**A tiny macOS menu-bar meter for Cursor and Cursor Grok usage.**
+## A tiny macOS menu-bar meter for Cursor/Grok usage. 
+- No API key or separate login required
+- No third-party dependencies
+- I have a job watching Cursor's release notes so I can update when they change how usage data is exposed
 
-Cursor Grok 4.5 now uses Cursor's first-party models pool alongside Auto and Composer. This app keeps that
-pool visible in the menu bar and shows the separate API-model pool in its popover.
+***Get the companion meters for [Claude](https://github.com/scottdflorida/claude-usage-micro) and [Codex](https://github.com/scottdflorida/codex-usage-micro)!*** *(So you can always see on which services you have remaining usage)*  
+<img width="470" height="37" alt="image" src="https://github.com/user-attachments/assets/99cdc56b-7ca3-4a0d-8a10-9dd10f2d9f45" />  
 
-The colored bars show **usage remaining**. The slim markers show **time remaining** in the monthly billing
-cycle. Green means usage is ahead of the clock, orange means it is behind, and red means less than 15% remains.
-The menu-bar gauge follows the Cursor models pool, which is the pool used by Cursor Grok 4.5.
-An amber `S` badge marks last-known data after a refresh fails; expired stale data is never retained.
+
+The purpose is to show you **how your usage is draining compared to cycle time**.  
+The vertical bar inside the meter moves right to left as the current cycle progresses through time.  
+The fill of the meter drains as usage in the cycle is consumed.
+- Green when remaining usage exceeds remaining cycle time
+- Amber when remaining usage is less than remaining cycle time
+- Red when remaining usage is less than 15%
+
+In the menu bar: meter at a glance   
+<img width="64" height="35" alt="image" src="https://github.com/user-attachments/assets/cda729e8-7b03-4670-8dd4-8f9d8e97d586" />  
+
+On hover: the data that matters  
+<img width="327" height="86" alt="image" src="https://github.com/user-attachments/assets/fbd5b7b5-0af0-48a7-8f49-2cb21a7b996d" />  
+
+On click: the full view  
+<img width="364" height="279" alt="image" src="https://github.com/user-attachments/assets/8f4dfd03-216d-42cd-8c81-d3570d7e1dbf" />  
 
 ## Requirements
 
