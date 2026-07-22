@@ -19,5 +19,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Lint, test, and type-check
         run: ./test.sh
-      - name: Build and verify app bundle
-        run: ./build.sh
+      - name: Build and verify source installation
+        env:
+          USAGE_MICRO_INSTALL_DIR: ${{ runner.temp }}/usage-micro-install
+        run: ./install.sh --no-launch
