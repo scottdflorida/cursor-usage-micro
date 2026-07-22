@@ -2,7 +2,9 @@
 
 [![CI](https://github.com/scottdflorida/cursor-usage-micro/actions/workflows/ci.yml/badge.svg)](https://github.com/scottdflorida/cursor-usage-micro/actions/workflows/ci.yml)
 
-## A tiny macOS menu-bar meter for Cursor/Grok usage. 
+[Latest source release](https://github.com/scottdflorida/cursor-usage-micro/releases/latest)
+
+## A tiny macOS menu-bar meter for Cursor/Grok usage.
 - No API key or separate login required
 - No third-party dependencies
 - I have daily release-notes watch and canary probes running so I can quickly react and update this app whenever they change how usage data is exposed
@@ -35,14 +37,19 @@ On click: the full view
 - A Swift 6.2-capable Xcode toolchain (Xcode 26 or newer)
 - Cursor installed, opened, and signed in
 
-## Build and run
+## Install from source
+
+Prebuilt downloads are not currently provided. The installer compiles the app on your Mac, copies it to
+`~/Applications`, and opens it.
 
 ```sh
 git clone https://github.com/scottdflorida/cursor-usage-micro.git
 cd cursor-usage-micro
-./build.sh
-open "build/Cursor Usage Micro.app"
+./install.sh
 ```
+
+To update later, run `git pull` in the checkout and then run `./install.sh` again. Use `./install.sh --no-launch`
+when you want to install without opening the app immediately.
 
 No separate API key or login is required. The app reads Cursor's existing access token from the local Cursor
 state database, then requests the same current-period usage data used by the installed Cursor client. It refreshes
@@ -72,19 +79,19 @@ schema failure keeps the last report visible as explicitly stale; logout or disa
 
 ## Troubleshooting
 
-- **"Cursor is not installed or has not been opened"** — the app reads
+- **"Cursor is not installed or has not been opened"**: the app reads
   `~/Library/Application Support/Cursor/User/globalStorage/state.vscdb`, which Cursor creates on first launch.
   Install Cursor and open it once.
-- **"Open Cursor and sign in to view usage"** — the local Cursor state has no access token. Sign in inside
+- **"Open Cursor and sign in to view usage"**: the local Cursor state has no access token. Sign in inside
   Cursor, then press Refresh in the popover.
-- **"Could not read the local Cursor login"** — Cursor was writing its state database at that moment. The app
+- **"Could not read the local Cursor login"**: Cursor was writing its state database at that moment. The app
   waits up to a second for the lock to clear; if the read still fails, the last report stays visible marked
   stale and the next five-minute refresh retries.
 
 ## Uninstall
 
-Quit the app from its popover, then delete `build/Cursor Usage Micro.app` (or wherever you copied it). The
-app writes nothing else to disk — no caches, files, or login items. macOS itself may keep a standard
+Quit the app from its popover, then delete `~/Applications/Cursor Usage Micro.app`. The app writes nothing else to
+disk: no caches, files, or login items. macOS itself may keep a standard
 preferences file recording the menu-bar item position; remove it with
 `defaults delete com.scottflorida.cursorusagemicro`.
 

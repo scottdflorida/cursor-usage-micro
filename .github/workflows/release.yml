@@ -1,16 +1,22 @@
-name: Release
+name: Signed release
 
 on:
-  push:
-    tags:
-      - "v[0-9]+.[0-9]+.[0-9]+"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing semantic-version tag to package
+        required: true
+        type: string
 
 permissions:
   contents: write
 
 concurrency:
-  group: release-${{ github.ref }}
+  group: signed-release-${{ inputs.tag }}
   cancel-in-progress: false
+
+env:
+  RELEASE_TAG: ${{ inputs.tag }}
 
 jobs:
   create-draft:
@@ -21,7 +27,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-        run: gh release create "$GITHUB_REF_NAME" --verify-tag --draft --generate-notes
+        run: |
+          [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          gh release create "$RELEASE_TAG" --verify-tag --draft --generate-notes
 
   build:
     needs: create-draft
@@ -39,10 +47,12 @@ jobs:
       DEVELOPER_DIR: /Applications/Xcode_26.3.app
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.tag }}
 
       - name: Set release version
         env:
-          RELEASE_VERSION: ${{ github.ref_name }}
+          RELEASE_VERSION: ${{ inputs.tag }}
           BUILD_NUMBER: ${{ github.run_number }}
         run: |
           version="${RELEASE_VERSION#v}"
@@ -95,7 +105,7 @@ jobs:
         run: |
           artifact=$(find build -maxdepth 1 -type f -name "*-$TARGET_ARCH.zip" -print -quit)
           test -n "$artifact"
-          gh release upload "$GITHUB_REF_NAME" "$artifact" --clobber
+          gh release upload "$RELEASE_TAG" "$artifact" --clobber
 
       - name: Remove signing material
         if: always()
@@ -112,4 +122,4 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-        run: gh release edit "$GITHUB_REF_NAME" --draft=false
+        run: gh release edit "$RELEASE_TAG" --draft=false

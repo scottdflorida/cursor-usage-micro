@@ -10,6 +10,10 @@ test_sources=(${source_files:#*/CursorUsageMicro.swift})
 test_sources=(${test_sources:#*/AppDelegate.swift})
 test_binary="$project_dir/build/CursorUsageMicroTests"
 
+for script in "$project_dir/build.sh" "$project_dir/install.sh" "$project_dir/package-release.sh"; do
+  zsh -n "$script"
+done
+
 mkdir -p "$module_cache"
 
 xcrun swift-format lint \

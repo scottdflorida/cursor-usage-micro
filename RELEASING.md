@@ -1,8 +1,24 @@
 # Releasing Cursor Usage Micro
 
-Releases are built for Apple silicon and Intel, signed with Developer ID, notarized by Apple, and published only after both packages pass.
+Source releases and optional signed packages use separate paths.
 
-## One-time setup
+## Source release
+
+1. Update and test `main`.
+2. Create and push an annotated semantic-version tag.
+3. Create the GitHub release for that tag.
+
+```sh
+git tag -a v0.2.0 -m "v0.2.0"
+git push origin v0.2.0
+gh release create v0.2.0 --verify-tag --generate-notes --title "v0.2.0"
+```
+
+GitHub automatically provides source archives. Make the release notes clear when no prebuilt app is attached.
+
+## Optional signed packages
+
+Signed packages require this one-time setup:
 
 1. Join the Apple Developer Program.
 2. Create a `Developer ID Application` certificate and export it with its private key as a password-protected `.p12` file.
@@ -20,18 +36,12 @@ Releases are built for Apple silicon and Intel, signed with Developer ID, notari
 
 The workflow writes signing material only to the runner's temporary directory and removes it in an always-run cleanup step.
 
-## Publish a version
+## Publish signed packages
 
-1. Update and test `main`.
-2. Create an annotated semantic-version tag, such as `v0.2.0`.
-3. Push the tag.
-
-The release workflow creates a draft, runs the full tests on both architectures, signs and notarizes each app, uploads both ZIP files, and then publishes the release. If either build fails, the release stays in draft form for inspection.
-
-```sh
-git tag -a v0.2.0 -m "v0.2.0"
-git push origin v0.2.0
-```
+Create and push a new tag, but do not create its GitHub release. In GitHub Actions, run the `Signed release` workflow
+manually and enter the existing tag. The workflow creates a draft, runs the full tests on both architectures, signs
+and notarizes each app, uploads both ZIP files, and publishes the release. If either build fails, the release stays
+in draft form for inspection.
 
 The tag controls the public version number. GitHub's workflow run number supplies the internal bundle build number.
 
